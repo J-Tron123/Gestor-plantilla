@@ -1,0 +1,48 @@
+{% extends "template.html" %}
+
+{% block titulo_pagina %} Alta de equipo {% endblock %}
+
+{% block contenido_pagina %}
+
+        <h1>Alta de equipo</h1>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p class="error">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+    <nav>
+        <p><a href="/">Plantillas</a></p>
+    </nav>
+
+    <form action="/alta_equipo" method="post">
+    {{ form.hidden_tag() }}
+<table>
+    <tr>
+        <td class="campo-formulario">
+            Nombre del equipo:
+        </td>
+        <th class="campo-formulario">
+            {{ form.desc_equipo(size=30, maxlength=100) }}
+            {% for error in form.desc_equipo.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Club del equipo:
+        </td>
+        <th class="campo-formulario">
+            {{ form.id_club }}
+            {% for error in form.id_club.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+</table>
+        <div id="derecha">
+            {{ form.guardar }}
+        </div>
+    </form>
+{% endblock %}

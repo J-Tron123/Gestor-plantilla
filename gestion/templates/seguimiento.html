@@ -1,0 +1,53 @@
+{% extends "template.html" %}
+
+{% block titulo_pagina %} Seguimiento {% endblock %}
+
+{% block contenido_pagina %}
+
+<nav>
+    <p><a href="/">Plantillas</a> | <a href="/stats">Estadísticas</a> | <a href="/his_med">Historial Médico</a> | <a href="/inasistencias">Inasistencias</a></p>
+</nav>
+
+<h1>Seguimiento</h1>
+
+<nav>
+    <p><a href="/alta_seguimiento">Registrar anotación</a></p>
+</nav>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    {% for message in messages %}
+        <p class="error">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+<form action="/seguimiento" method="post">
+    {{ form.hidden_tag() }}
+    <div class="campo-formulario">
+        Seleccione un jugador:
+        {{ form.jugadores }}
+        {{ form.buscar }}
+    </div>
+</form>
+{% if total_items == [""] %}
+<table class="paper">
+    <tr>
+        <th>Anotación</th>
+        <th>Estado</th>
+    </tr>
+</table>
+{% else %}
+<table class="paper">
+    <tr>
+        <th>Anotación</th>
+        <th>Estado</th>
+    </tr>
+    {% for item in total_items %}
+    <tr>
+        <td>{{ item.anotacion }}</td>
+        <td>{% if item.estado == "SI" %} Completado {% else %} En progreso {% endif %}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+{% endblock %}

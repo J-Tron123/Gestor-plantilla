@@ -1,0 +1,68 @@
+{% extends "template.html" %}
+
+{% block titulo_pagina %} Registrar Anotación {% endblock %}
+
+{% block contenido_pagina %}
+
+        <h1>Registrar anotación</h1>
+    <nav>
+        <p><a href="/seguimiento">Seguimiento</a></p>
+    </nav>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p class="error">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="/alta_seguimiento" method="post">
+    {{ form.hidden_tag() }}
+<table>
+    <tr>
+        <td class="campo-formulario">
+            Equipo del jugador:
+        </td>
+        <th class="campo-formulario">
+            {{ form.id_equipo }}
+            {% for error in form.id_equipo.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Jugador:
+        </td>
+        <th class="campo-formulario">
+            {{ form.jugadores }}
+            {% for error in form.jugadores.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td class="campo-formulario">
+            Anotación:
+        </td>
+        <th class="campo-formulario">
+            {{ form.anotacion(size=100) }}
+            {% for error in form.anotacion.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Estado:
+        </td>
+        <th class="campo-formulario">
+            {{ form.estado }}
+            {% for error in form.estado.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+</table>
+        <div id="derecha" class="campo-formulario">
+            {{ form.guardar }}
+        </div>
+    </form>
+{% endblock %}

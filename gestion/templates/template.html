@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gestor de plantillas | {% block titulo_pagina %}{% endblock %}</title>
+        <link rel="stylesheet" href="/static/css/styles.css">
+        <link rel="icon" type="image/png" sizes="32x32" href="/static/images/icons/favicon-32x32.png">
+    </head>
+    <body>        
+            <header>
+                <p>Gestor de plantillas</p>
+            </header>
+
+            <section class="contenedor">
+                {% block contenido_pagina %}{% endblock %}
+            </section>
+            <footer>
+                <p>&copy; 2021 - Todos los derechos reservados</p>
+            </footer>        
+    </body>
+</html>

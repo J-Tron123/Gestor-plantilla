@@ -1,0 +1,166 @@
+* {font-family: Helvetica, Arial, sans-serif; }
+:root {
+    --color-primario: #35682D;
+    --color-secundario: #FDFEFE;
+    --negro: #2c363f; 
+    --blanco: #fafafa;
+    --separacion-defecto: 8px;
+}
+
+body { background-color: #BDECB6;}
+
+h1, table { text-align: center; }
+
+table {border-collapse: collapse;  width: 70%; margin: 0 auto 5rem;}
+
+th, td { padding: 1.5rem; font-size: 1.3rem; }
+
+tr {background: #35682D; }
+
+tr, td { transition: .4s ease-in; } 
+
+tr:first-child {background-color: #35682D; }
+
+tr:nth-child(even) { background-color: #6BE303; }
+
+.contenedor {
+    max-width: 1000000px;
+    margin: 0 auto;
+}
+
+header *, footer * {
+    background-color: var(--color-primario);
+    color: var(--blanco);
+    font-size: 1.5rem;
+    padding: 2.8rem;
+    margin: 0 auto ;
+}
+
+.error {
+    color: #F44611;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.campo-formulario label {
+    display: block;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 0;
+    margin-top: var(--separacion-defecto);
+}
+
+button,
+input[type=submit],
+input[type=reset],
+.blue-button, input.blue-button,
+.red-button, input.red-button,
+.green-button, input.green-button {
+    border-radius: 4px;
+    font-weight: bold;
+    color: #FFF;
+    margin-top: 7px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    height: 45px;
+    width: 120px;
+    border: 3px solid #35682D;
+    background: #6BE303;
+    line-height: 40px;
+    display: block;
+    transition: border .2s .2s, text-shadow .2s .2s, background .2s .2s, transform .2s, color .2s .2s, box-shadow .2s;
+    text-transform: capitalize;
+}
+
+.rounded-button {
+    border: none;
+    cursor: pointer;
+    height: 56px;
+    width: 56px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+    text-shadow: 0 0 1px;
+    border-radius: 100%;
+    font-size: 35px;
+    line-height: 56px;
+    text-align: center;
+    color: #FFF;
+    background: #8c42ab;
+    font-weight: 100;
+    display: block;
+    transition: text-shadow .2s .2s, background .2s .2s, transform .2s, color .2s .2s, box-shadow .2s;
+}
+
+.rounded-button:hover { transform: scale(1.04); }
+
+button:hover,
+input[type=submit]:hover,
+input[type=reset]:hover,
+.blue-button:hover, input.blue-button:hover,
+.red-button:hover, input.red-button:hover,
+.green-button:hover, input.green-button:hover {
+    transform: scale(1.03);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+}
+
+button:active, button.active,
+input[type=submit]:active, input[type=submit].active,
+input[type=reset]:active, input[type=reset].active,
+.blue-button:active, input.blue-button:active, .blue-button.active, input.blue-button.active,
+.red-button:active, input.red-button:active, .red-button.active, input.red-button.active,
+.green-button:active, input.green-button:active, .green-button.active, input.green-button.active,
+.rounded-button:active, .rounded-button.active {
+    box-shadow: none;
+    border-color: #000;
+    color: #000;
+    text-shadow: none;
+    background: #FFF;
+    transition: transform .2s, box-shadow .2s;
+}
+
+.rounded-button:active, .rounded-button.active { box-shadow: 0 0 10px rgba(0, 0, 0, .6); }
+
+.blue-button, input.blue-button {
+    background: #367bf0;
+    border-color: #2656a8;
+}
+
+.red-button, input.red-button {
+    background: #b8174c;
+    border-color: #811035;
+}
+
+.green-button, input.green-button {
+    background: #19a187;
+    border-color: #12715f;
+}
+
+#derecha {
+    margin-left: 1175px;
+    margin-bottom: 10px;
+}
+
+#izquierda {
+    margin-left: 0px;
+    margin-top: 20px;
+}
+
+.paper {
+    font-size: 16px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 3px 1px -2px rgba(0, 0, 0, .2), 0 1px 5px 0 rgba(0, 0, 0, .12);
+    padding: 10px 20px;
+    background-color: #FFF;
+    margin-top: 20px;
+    min-height: 100px;
+    color: #000;
+}
+
+section, article, .section, .article, .paper {
+    line-height: 2em;
+    word-wrap: break-word;
+    word-break: normal;
+    line-height: 2em;
+}
+
+tr:hover:not(#firstrow), tr:hover td:empty {background: #ff0; pointer-events: visible;}
+tr:hover:not(#firstrow) { transform: scale(1.2); font-weight: 700; box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.5);}

@@ -1,0 +1,68 @@
+{% extends "template.html" %}
+
+{% block titulo_pagina %} Registrar Lesión {% endblock %}
+
+{% block contenido_pagina %}
+
+        <h1>Registrar inasistencia</h1>
+    <nav>
+        <p><a href="/inasistencias">Inasistencias</a></p>
+    </nav>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p class="error">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="/alta_inasis" method="post">
+    {{ form.hidden_tag() }}
+<table>
+    <tr>
+        <td class="campo-formulario">
+            Equipo del jugador:
+        </td>
+        <th class="campo-formulario">
+            {{ form.id_equipo }}
+            {% for error in form.id_equipo.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Jugador:
+        </td>
+        <th class="campo-formulario">
+            {{ form.jugadores }}
+            {% for error in form.jugadores.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td class="campo-formulario">
+            Tipo de inasistencia:
+        </td>
+        <th class="campo-formulario">
+            {{ form.es_entreno }}
+            {% for error in form.es_entreno.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Día de la inasistencia:
+        </td>
+        <th class="campo-formulario">
+            {{ form.inasistencia }}
+            {% for error in form.inasistencia.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+</table>
+        <div id="derecha" class="campo-formulario">
+            {{ form.guardar }}
+        </div>
+    </form>
+{% endblock %}

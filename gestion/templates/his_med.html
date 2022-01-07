@@ -1,0 +1,57 @@
+{% extends "template.html" %}
+
+{% block titulo_pagina %} Historial Médico {% endblock %}
+
+{% block contenido_pagina %}
+
+<nav>
+    <p><a href="/">Plantillas</a> | <a href="/stats">Estadísticas</a> | <a href="/inasistencias">Inasistencias</a> | <a href="/seguimiento">Seguimiento</a></p>
+</nav>
+
+<h1>Historial Médico</h1>
+<nav>
+    <p><a href="/alta_med">Registrar lesión</a></p>
+</nav>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    {% for message in messages %}
+        <p class="error">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+<form action="/his_med" method="post">
+    {{ form.hidden_tag() }}
+    <div class="campo-formulario">
+        Seleccione un jugador:
+        {{ form.jugadores }}
+        {{ form.buscar }}
+    </div>
+</form>
+{% if total_items == [""] %}
+<table class="paper">
+    <tr>
+        <th>Nombre</th>
+        <th>Dorsal</th>
+        <th>Tipo de lesión</th>
+        <th>Días de baja</th>
+    </tr>
+</table>
+{% else %}
+<table class="paper">
+    <tr>
+        <th>Nombre</th>
+        <th>Dorsal</th>
+        <th>Tipo de lesión</th>
+        <th>Días de baja</th>
+    </tr>
+    {% for item in total_items %}
+    <tr>
+        <td>{{item.nombre }}</td>
+        <td>{{ item.dorsal }}</td>
+        <td>{{ item.desc_lesion }}</td>
+        <td>{{ item.duracion }} días</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "template.html" %}
+
+{% block titulo_pagina %} Plantillas {% endblock %}
+
+{% block contenido_pagina %}
+
+<nav>
+    <p><a href="/stats">Estadísticas</a> | <a href="/his_med">Historial Médico</a> | <a href="/inasistencias">Inasistencias</a> | <a href="/seguimiento">Seguimiento</a></p>
+</nav>
+
+<nav>
+    <p><a href="/alta_jugador">Alta de jugador</a> | <a href="/alta_equipo">Alta de equipo</a> | <a href="/alta_club">Alta de club</a></p>
+</nav>
+
+<h1>{{ plantilla }}</h1>
+
+<form action="/" method="post">
+    {{ form.hidden_tag() }}
+    <div>
+        Equipo: {{ form.id_equipo }}
+        {% for error in form.id_equipo.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        {{ form.buscar }}
+    </div>
+</form>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <p class="error">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% if total_items | length == 0 %}
+    <p class="error">No tienes jugadores registrados en esta plantilla, por favor registra uno</p>
+
+    <table class="paper">
+        <tr>
+            <th>Nombre</th>
+            <th>Dorsal</th>
+            <th>Posición</th>
+            <th>Estatura</th>
+            <th>Peso</th>
+        </tr>
+    </table>
+{% elif total_items == [""] %}
+<table class="paper">
+<tr>
+    <th>Nombre</th>
+    <th>Dorsal</th>
+    <th>Posición</th>
+    <th>Estatura</th>
+    <th>Peso</th>
+</tr>
+</table>
+{% else %}
+<table class="paper">
+    <tr>
+        <th>Nombre</th>
+        <th>Dorsal</th>
+        <th>Posición</th>
+        <th>Estatura</th>
+        <th>Peso</th>
+    </tr>
+    {% for item in total_items %}
+    <tr id={{ item.id }}>
+        <td>{{ item.nombre }}</td>
+        <td>{{ item.dorsal }}</td>
+        <td>{{ item.posicion }}</td>
+        <td>{{ item.estatura }} mts</td>
+        <td>{{ item.peso }} kg</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock %}

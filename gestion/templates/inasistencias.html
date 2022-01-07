@@ -1,0 +1,50 @@
+{% extends "template.html" %}
+
+{% block titulo_pagina %} Inasistencias {% endblock %}
+
+{% block contenido_pagina %}
+
+<nav>
+    <p><a href="/">Plantillas</a> | <a href="/stats">Estadísticas</a> | <a href="/his_med">Historial Médico</a> | <a href="/seguimiento">Seguimiento</a></p>
+</nav>
+<h1>Inasistencias</h1>
+<nav>
+    <p><a href="/alta_inasis">Registrar inasistencia</a></p>
+</nav>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    {% for message in messages %}
+        <p class="error">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+<form action="/inasistencias" method="post">
+    {{ form.hidden_tag() }}
+    <div class="campo-formulario">
+        Seleccione un jugador:
+        {{ form.jugadores }}
+        {{ form.buscar }}
+    </div>
+</form>
+{% if total_items == [""] %}
+<table class="paper">
+    <tr>
+        <th>Inasistencias</th>
+        <th>Tipo de inasistencia</th>
+    </tr>
+</table>
+{% else %}
+<table class="paper">
+    <tr>
+        <th>Inasistencias</th>
+        <th>Tipo de inasistencia</th>
+    </tr>
+    {% for item in total_items %}
+    <tr>
+        <td>{{ item.inasistencia }}</td>
+        <td>{% if item.es_entreno == "E" %} Entreno {% else %} Partido{% endif %}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock %}

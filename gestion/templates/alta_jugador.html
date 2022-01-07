@@ -1,0 +1,103 @@
+{% extends "template.html" %}
+
+{% block titulo_pagina %} Alta de jugador {% endblock %}
+
+{% block contenido_pagina %}
+
+        <h1>Alta de jugador</h1>
+    <nav>
+        <p><a href="/">Plantillas</a></p>
+    </nav>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p class="error">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="/alta_jugador" method="post">
+    {{ form.hidden_tag() }}
+    <table class="paper" class="paper">
+        <td>
+            Club: {{ form.clubes }}
+            {% for error in form.clubes.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </td>
+    </table>
+<table>
+    <tr>
+        <td class="campo-formulario">
+            Nombre:
+        </td>
+        <th class="campo-formulario">
+            {{ form.nombre(size=30, maxlength=100) }}
+            {% for error in form.nombre.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        
+        <td class="campo-formulario">
+            Dorsal:
+        </td>
+        <th class="campo-formulario">
+            {{ form.dorsal(size=30) }}
+            {% for error in form.dorsal.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+    <tr>
+        <td class="campo-formulario">
+            Posición:
+        </td>
+        <th class="campo-formulario">
+            {{ form.posicion(size=30, maxlength=100) }}
+            {% for error in form.posicion.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Estatura:
+        </td>
+        <th class="campo-formulario">
+            {{ form.estatura(size=30) }}
+            {% for error in form.estatura.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+    <tr>
+        <td class="campo-formulario">
+            Peso:
+        </td>
+        <th class="campo-formulario">
+            {{ form.peso(size=30) }}
+            {% for error in form.peso.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Equipo:
+        </td>
+        <th calss="campo-formulario">
+            {{ form.id_equipo }}
+            {% for error in form.id_equipo.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+</table>
+        <div>
+            Foto del jugador:
+            {{ form.foto }}
+            {% for error in form.id_equipo.errors %}
+            <p class="error">{{ error }}</p>
+            {% endfor %}
+        </div>
+        <div id="derecha" class="campo-formulario">
+            {{ form.guardar }}
+        </div>
+    </form>
+{% endblock %}
+

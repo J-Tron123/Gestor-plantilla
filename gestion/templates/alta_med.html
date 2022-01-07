@@ -1,0 +1,70 @@
+{% extends "template.html" %}
+
+{% block titulo_pagina %} Registrar Lesión {% endblock %}
+
+{% block contenido_pagina %}
+
+        <h1>Registrar lesión</h1>
+    <nav>
+        <p><a href="/his_med">Historial Médico</a></p>
+    </nav>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p class="error">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="/alta_med" method="post">
+    {{ form.hidden_tag() }}
+<table>
+    <tr>
+        <td class="campo-formulario">
+            Equipo del jugador:
+        </td>
+        <th class="campo-formulario">
+            {{ form.id_equipo }}
+            {% for error in form.id_equipo.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Jugador:
+        </td>
+        <th class="campo-formulario">
+            {{ form.jugadores }}
+            {% for error in form.jugadores.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td class="campo-formulario">
+            Tipo de lesión:
+        </td>
+        <th class="campo-formulario">
+            {{ form.desc_lesion(size=30, maxlength=100) }}
+            {% for error in form.desc_lesion.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+    <tr>
+        <td class="campo-formulario">
+            Días de baja:
+        </td>
+        <th class="campo-formulario">
+            {{ form.duracion }}
+            {% for error in form.duracion.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+</table>
+        <div id="derecha" class="campo-formulario">
+            {{ form.guardar }}
+        </div>
+    </form>
+{% endblock %}
