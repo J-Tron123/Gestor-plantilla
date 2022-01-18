@@ -1,0 +1,68 @@
+{% extends "template.html" %}
+
+{% block titulo_pagina %} Estadísticas {% endblock %}
+
+{% block contenido_pagina %}
+
+<nav>
+    <p><a href="/stats">Estadísticas</a> | <a href="/primeras">Estadísticas 2.0</a></p>
+</nav>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    {% for message in messages %}
+        <p class="error">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
+<h1>{{ jugador }}</h1>
+
+<form action="/segundas" method="post">
+    {{ form.hidden_tag() }}
+    <div class="campo-formulario">
+        Seleccione un jugador:
+        {{ form.jugadores }}
+        {{ form.buscar }}
+    </div>
+</form>
+
+{% if total_items == [""] %}
+<table class="paper">
+    <tr>
+        <th>Regates</th>
+        <th>Regates completados</th>
+        <th>Duelos aéreos</th>
+        <th>Duelos aéreos completados</th>
+        <th>Faltas</th>
+        <th>Recuperaciones</th>
+        <th>Autogoles</th>
+        <th>Fueras de juego</th>
+    </tr>
+</table>
+{% else %}
+<table class="paper">
+    <tr>
+        <th>Regates</th>
+        <th>Regates completados</th>
+        <th>Duelos aéreos</th>
+        <th>Duelos aéreos completados</th>
+        <th>Faltas</th>
+        <th>Recuperaciones</th>
+        <th>Goles en Propia</th>
+        <th>Fueras de juego</th>
+    </tr>
+    {% for item in total_items %}
+    <tr>
+        <td>{% if item.regates != None %} {{ item.regates }} {% else %} - {% endif %}</td>
+        <td>{% if item.regates_completados != None %} {{ item.regates_completados }} {% else %} - {% endif %}</td>
+        <td>{% if item.duelos_aereos != None %} {{ item.duelos_aereos }} {% else %} - {% endif %}</td>
+        <td>{% if item.duelos_aereos_completados != None %} {{ item.duelos_aereos_completados }} {% else %} - {% endif %}</td>
+        <td>{% if item.faltas != None %} {{ item.faltas }} {% else %} - {% endif %}</td>
+        <td>{% if item.recuperaciones != None %} {{ item.recuperaciones }} {% else %} - {% endif %}</td>
+        <td>{% if item.autogoles != None %} {{ item.autogoles }} {% else %} - {% endif %}</td>
+        <td>{% if item.offsides != None %} {{ item.offsides }} {% else %} - {% endif %}</td>
+    </tr>
+    {% endfor %}
+{% endif %}
+</table>
+{% endblock %}

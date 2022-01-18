@@ -18,6 +18,9 @@
     {% endfor %}
 {% endif %}
 {% endwith %}
+
+<h1>{{ jugador }}</h1>
+
 <form action="/inasistencias" method="post">
     {{ form.hidden_tag() }}
     <div class="campo-formulario">

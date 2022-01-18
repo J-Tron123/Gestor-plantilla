@@ -26,7 +26,7 @@ CREATE TABLE "estadisticas" (
 	"remates"	INTEGER,
 	"remates_puerta"	INTEGER,
 	"regates"	INTEGER,
-	"regates_comlpetados"	INTEGER,
+	"regates_completados"	INTEGER,
 	"duelos_aereos"	INTEGER,
 	"duelos_aereos_completados"	INTEGER,
 	"paradas"	INTEGER,

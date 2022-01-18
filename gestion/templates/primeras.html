@@ -1,0 +1,68 @@
+{% extends "template.html" %}
+
+{% block titulo_pagina %} Estadísticas {% endblock %}
+
+{% block contenido_pagina %}
+
+<nav>
+    <p><a href="/stats">Estadísticas</a> | <a href="/segundas">Estadísticas 3.0</a></p>
+</nav>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    {% for message in messages %}
+        <p class="error">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
+<h1>{{ jugador }}</h1>
+
+<form action="/primeras" method="post">
+    {{ form.hidden_tag() }}
+    <div class="campo-formulario">
+        Seleccione un jugador:
+        {{ form.jugadores }}
+        {{ form.buscar }}
+    </div>
+</form>
+
+{% if total_items == [""] %}
+<table class="paper">
+<tr>
+    <th>Goles</th>
+    <th>Asistencias</th>
+    <th>Pases</th>
+    <th>Pases completados</th>
+    <th>Pases clave</th>
+    <th>Remates</th>
+    <th>Remates a puerta</th>
+    <th>Grandes ocasiones</th>
+</tr>
+</table>
+{% else %}
+<table class="paper">
+    <tr>
+        <th>Goles</th>
+        <th>Asistencias</th>
+        <th>Pases</th>
+        <th>Pases completados</th>
+        <th>Pases clave</th>
+        <th>Remates</th>
+        <th>Remates a puerta</th>
+        <th>Grandes ocasiones</th>
+    </tr>
+    {% for item in total_items %}
+    <tr>
+        <td>{% if item.goles != None %} {{ item.goles }} {% else %} - {% endif %}</td>
+        <td>{% if item.asistencias != None %} {{ item.asistencias }} {% else %} - {% endif %}</td>
+        <td>{% if item.pases != None %} {{ item.pases }} {% else %} - {% endif %}</td>
+        <td>{% if item.pases_completados != None %} {{ item.pases_completados }} {% else %} - {% endif %}</td>
+        <td>{% if item.pases_clave != None %} {{ item.pases_clave }} {% else %} - {% endif %}</td>
+        <td>{% if item.remates != None %} {{ item.remates }} {% else %} - {% endif %}</td>
+        <td>{% if item.remates_puerta != None %} {{ item.remates_puerta }} {% else %} - {% endif %}</td>
+        <td>{% if item.grandes_ocasiones != None %} {{ item.grandes_ocasiones }} {% else %} - {% endif %}</td>
+    </tr>
+    {% endfor %}
+{% endif %}
+</table>
+{% endblock %}

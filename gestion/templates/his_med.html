@@ -39,15 +39,11 @@
 {% else %}
 <table class="paper">
     <tr>
-        <th>Nombre</th>
-        <th>Dorsal</th>
         <th>Tipo de lesión</th>
         <th>Días de baja</th>
     </tr>
     {% for item in total_items %}
     <tr>
-        <td>{{item.nombre }}</td>
-        <td>{{ item.dorsal }}</td>
         <td>{{ item.desc_lesion }}</td>
         <td>{{ item.duracion }} días</td>
     </tr>

@@ -16,7 +16,7 @@ def plantillas():
         form = FormPlantilla.new()
     except sqlite3.Error as e:
         form = FormPlantilla()
-        flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+        flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
         return render_template("plantillas.html", total_items=[""], form=form, plantilla="Plantilla")
     if request.method == "GET":
         return render_template("plantillas.html", total_items=[""], form=form, plantilla="Plantilla")
@@ -39,7 +39,7 @@ def plantillas():
                     return render_template("plantillas.html", total_items=plantilla, form=form, plantilla=(equipo, club))
                 except sqlite3.Error as e:
                     print(e)
-                    flash("Se ha producido un errror en la base de datos, consulte con el administrador")
+                    flash("Se ha producido un errror en la base de datos, por favor consulte con el administrador")
                     return render_template("plantillas.html", total_items=[""], form=form, plantilla="Plantilla")
         else:
             flash("Debes seleccionar un equipo")
@@ -51,7 +51,7 @@ def alta_jugador():
         form = Form.new()
     except sqlite3.Error as e:
         form = Form()
-        flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+        flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
         return render_template("alta_jugador.html", form=form)
     if request.method == "GET":
         return render_template("alta_jugador.html", form=form)
@@ -72,7 +72,7 @@ def alta_jugador():
                         flash("Solo puedes tener un mismo dorsal por equipo")
                         return render_template("alta_jugador.html", form=form)
                     else:
-                        flash("Se ha producido un errror en la base de datos, consulte con el administrador")
+                        flash("Se ha producido un errror en la base de datos, por favor consulte con el administrador")
                         return render_template("alta_jugador.html", form=form)
         else:
             flash("Debes llenar todos los campos correctamente")
@@ -84,7 +84,7 @@ def alta_equipo():
         form = FormEquipo.new()
     except sqlite3.Error as e:
         form = FormEquipo()
-        flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+        flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
     if request.method == "GET":
         return render_template("alta_equipo.html", form=form)
     else:
@@ -107,7 +107,7 @@ def alta_equipo():
                         flash(f"No puedes llamar a este club {desc_equipo} porque ya hay uno que se llama así en el {desc_club}")
                         return render_template("alta_equipo.html", form=form)
                     else:
-                        flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+                        flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
                         return render_template("alta_equipo.html", form=form)
         else:
             flash("Debes llenar todos los campos correctamente")
@@ -133,15 +133,114 @@ def alta_club():
                         flash(f"No puedes llamar a este club {desc_club} porque ya hay uno que se llama así")
                         return render_template("alta_club.html", form=form)
                     else:
-                        flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+                        flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
                         return render_template("alta_club.html", form=form)
         else:
             flash("Debes llenar todos los campos correctamente")
             return render_template("alta_club.html", form=form)
 
-@app.route("/stats")
+@app.route("/stats", methods=["GET", "POST"])
 def stats():
-    return render_template("stats.html")
+    try:    
+        form = FormBuscaJugador.new()
+    except sqlite3.Error as e:
+        form = FormBuscaJugador()
+        flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
+        return render_template("stats.html", form=form, jugador="")
+    if request.method == "GET":
+        return render_template("stats.html", form=form, jugador="")
+    else:
+        if form.validate():
+            if form.data["buscar"]:
+                try:
+                    dorsal = form.data["jugadores"]
+                    query = f"""SELECT partidos, minutos, amarillas, rojas FROM estadisticas
+                    WHERE dorsal={dorsal}"""
+                    stats = dbmanager.querySQL(query)
+                    query2 = f"""SELECT jug.nombre, eq.desc_equipo
+                                FROM jugadores jug
+                                LEFT OUTER JOIN equipos eq ON jug.id_equipo = eq.id_equipo
+                                WHERE jug.dorsal = {dorsal}"""
+                    jugador_consulta = dbmanager.querySQL(query2)
+                    jugador = jugador_consulta[0]["nombre"]
+                    equipo = jugador_consulta[0]["desc_equipo"]
+                    return render_template("stats.html", total_items=stats, form=form, jugador=(jugador, equipo))
+                except sqlite3.Error as e:
+                    print(e)
+                    flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
+                    return render_template("stats.html", total_items=[""], form=form, jugador="")
+        else:
+            return render_template("stats.html", form=form, jugador="")
+
+@app.route("/primeras", methods=["GET", "POST"])
+def primeras():
+    try:    
+        form = FormBuscaJugador.new()
+    except sqlite3.Error as e:
+        form = FormBuscaJugador()
+        flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
+        return render_template("primeras.html", form=form, jugador="")
+    if request.method == "GET":
+        return render_template("primeras.html", form=form, jugador="")
+    else:
+        if form.validate():
+            if form.data["buscar"]:
+                try:
+                    dorsal = form.data["jugadores"]
+                    query = f"""SELECT goles, asistencias, pases, pases_completados,
+                                pases_clave, remates, remates_puerta, grandes_ocasiones
+                                FROM estadisticas
+                                WHERE dorsal={dorsal}"""
+                    stats = dbmanager.querySQL(query)
+                    query2 = f"""SELECT jug.nombre, eq.desc_equipo
+                                FROM jugadores jug
+                                LEFT OUTER JOIN equipos eq ON jug.id_equipo = eq.id_equipo
+                                WHERE jug.dorsal = {dorsal}"""
+                    jugador_consulta = dbmanager.querySQL(query2)
+                    jugador = jugador_consulta[0]["nombre"]
+                    equipo = jugador_consulta[0]["desc_equipo"]
+                    return render_template("primeras.html", total_items=stats, form=form, jugador=(jugador, equipo))
+                except sqlite3.Error as e:
+                    print(e)
+                    flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
+                    return render_template("primeras.html", total_items=[""], form=form, jugador="")
+        else:
+            return render_template("primeras.html", form=form, jugador="")
+
+@app.route("/segundas", methods=["GET", "POST"])
+def segundas():
+    try:    
+        form = FormBuscaJugador.new()
+    except sqlite3.Error as e:
+        form = FormBuscaJugador()
+        flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
+        return render_template("segundas.html", form=form, jugador="")
+    if request.method == "GET":
+        return render_template("segundas.html", form=form, jugador="")
+    else:
+        if form.validate():
+            if form.data["buscar"]:
+                try:
+                    dorsal = form.data["jugadores"]
+                    query = f"""SELECT regates, regates_completados, duelos_aereos, duelos_aereos_completados,
+                                faltas, recuperaciones, autogoles, offsides
+                                FROM estadisticas
+                                WHERE dorsal={dorsal}"""
+                    stats = dbmanager.querySQL(query)
+                    query2 = f"""SELECT jug.nombre, eq.desc_equipo
+                                FROM jugadores jug
+                                LEFT OUTER JOIN equipos eq ON jug.id_equipo = eq.id_equipo
+                                WHERE jug.dorsal = {dorsal}"""
+                    jugador_consulta = dbmanager.querySQL(query2)
+                    jugador = jugador_consulta[0]["nombre"]
+                    equipo = jugador_consulta[0]["desc_equipo"]
+                    return render_template("segundas.html", total_items=stats, form=form, jugador=(jugador, equipo))
+                except sqlite3.Error as e:
+                    print(e)
+                    flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
+                    return render_template("segundas.html", total_items=[""], form=form, jugador="")
+        else:
+            return render_template("segundas.html", form=form, jugador="")
 
 @app.route("/inasistencias", methods=["GET", "POST"])
 def inasistencias():
@@ -149,9 +248,10 @@ def inasistencias():
         form = FormBuscaJugador.new()
     except sqlite3.Error as e:
         form = FormBuscaJugador()
-        flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+        flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
+        return render_template("inasistencias.html", form=form, jugador="")
     if request.method == "GET":
-        return render_template("inasistencias.html", form=form)
+        return render_template("inasistencias.html", form=form, jugador="")
     else:
         if form.validate():
             if form.data["buscar"]:
@@ -165,18 +265,25 @@ def inasistencias():
                     FROM jugadores
                     LEFT OUTER JOIN inasistencias ON jugadores.dorsal = inasistencias.dorsal
                     WHERE jugadores.dorsal={dorsal}"""
-                    jugador = dbmanager.querySQL(query)
-                    if jugador[0]["inasistencia"] == None:
+                    inasistente = dbmanager.querySQL(query)
+                    query2 = f"""SELECT jug.nombre, eq.desc_equipo
+                                FROM jugadores jug
+                                LEFT OUTER JOIN equipos eq ON jug.id_equipo = eq.id_equipo
+                                WHERE jug.dorsal = {dorsal}"""
+                    jugador_consulta = dbmanager.querySQL(query2)
+                    jugador = jugador_consulta[0]["nombre"]
+                    equipo = jugador_consulta[0]["desc_equipo"]
+                    if inasistente[0]["inasistencia"] == None:
                         flash("Este jugador no ha tenido inasistencias, por favor elige otro")
-                        return render_template("inasistencias.html", total_items=[""], form=form)
+                        return render_template("inasistencias.html", total_items=[""], form=form, jugador="")
                     else:
-                        return render_template("inasistencias.html", total_items=jugador, form=form)
+                        return render_template("inasistencias.html", total_items=inasistente, form=form, jugador=(jugador, equipo))
                 except sqlite3.Error as e:
                     print(e)
-                    flash("No se ha podido acceder a la base de datos, consulte con su administrador")
-                    return render_template("inasistencias.html", total_items=[""], form=form)
+                    flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
+                    return render_template("inasistencias.html", total_items=[""], form=form, jugador="")
         else:
-            return render_template("inasistencias.html", form=form)
+            return render_template("inasistencias.html", form=form, jugador="")
 
 @app.route("/alta_inasis", methods=["GET", "POST"])
 def alta_inasis():
@@ -184,7 +291,7 @@ def alta_inasis():
         form = FormInasis.new()
     except sqlite3.Error as e:
         form = FormInasis()
-        flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+        flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
     if request.method == "GET":
         return render_template("alta_inasis.html", form=form)
     else:
@@ -200,7 +307,7 @@ def alta_inasis():
                     return redirect(url_for("inasistencias"))
                 except sqlite3.Error as e:
                     print(e)
-                    flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+                    flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
                     return render_template("alta_inasis.html", form=form)
         else:
             return render_template("alta_inasis.html", form=form)
@@ -211,7 +318,7 @@ def his_med():
         form = FormBuscaJugador.new()
     except sqlite3.Error as e:
         form = FormBuscaJugador()
-        flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+        flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
     if request.method == "GET":
         return render_template("his_med.html", form=form)
     else:
@@ -235,7 +342,7 @@ def his_med():
                         return render_template("his_med.html", total_items=jugador, form=form)
                 except sqlite3.Error as e:
                     print(e)
-                    flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+                    flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
                     return render_template("his_med.html", total_items=[""], form=form)
         else:
             return render_template("his_med.html")
@@ -246,7 +353,7 @@ def alta_med():
         form = FormMed.new()
     except sqlite3.Error as e:
         form = FormMed()
-        flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+        flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
     if request.method == "GET":
         return render_template("alta_med.html", form=form)
     else:
@@ -262,7 +369,7 @@ def alta_med():
                     return redirect(url_for("his_med"))
                 except sqlite3.Error as e:
                     print(e)
-                    flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+                    flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
                     return render_template("alta_med.html", form=form)
         else:
             return render_template("alta_med.html", form=form)
@@ -273,7 +380,7 @@ def seguimiento():
         form = FormBuscaJugador.new()
     except sqlite3.Error as e:
         form = FormBuscaJugador()
-        flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+        flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
     if request.method == "GET":
         return render_template("seguimiento.html", form=form)
     else:
@@ -296,7 +403,7 @@ def seguimiento():
                         return render_template("seguimiento.html", total_items=jugador, form=form)
                 except sqlite3.Error as e:
                     print(e)
-                    flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+                    flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
                     return render_template("seguimiento.html", total_items=[""], form=form)
         else:
             return render_template("seguimiento.html", form=form)
@@ -307,7 +414,7 @@ def alta_seguimiento():
         form = FormSeguimiento.new()
     except sqlite3.Error as e:
         form = FormSeguimiento()
-        flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+        flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
     if request.method == "GET":
         return render_template("alta_seguimiento.html", form=form)
     else:
@@ -323,7 +430,7 @@ def alta_seguimiento():
                     return redirect(url_for("seguimiento"))
                 except sqlite3.Error as e:
                     print(e)
-                    flash("No se ha podido acceder a la base de datos, consulte con su administrador")
+                    flash("No se ha podido acceder a la base de datos, por favor consulte con su administrador")
                     return render_template("alta_seguimiento.html", form=form)
         else:
             return render_template("alta_seguimiento.html", form=form)

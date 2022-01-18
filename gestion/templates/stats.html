@@ -8,21 +8,55 @@
     <p><a href="/">Plantillas</a> | <a href="/his_med">Historial Médico</a> | <a href="/inasistencias">Inasistencias</a> | <a href="/seguimiento">Seguimiento</a></p>
 </nav>
 
-<h1>Estadísticas</h1>
+<nav>
+    <p><a href="/primeras">Estadísticas 2.0</a> | <a href="/segundas">Estadísticas 3.0</a></p>
+</nav>
 
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    {% for message in messages %}
+        <p class="error">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
+<h1>{{ jugador }}</h1>
+
+<form action="/stats" method="post">
+    {{ form.hidden_tag() }}
+    <div class="campo-formulario">
+        Seleccione un jugador:
+        {{ form.jugadores }}
+        {{ form.buscar }}
+    </div>
+</form>
+
+{% if total_items == [""] %}
 <table class="paper">
-<tr>
-    <th>Nombre</th>
-    <th>Nombre</th>
-    <th>Nombre</th>
-    <th>Nombre</th>
-</tr>
-<tr>
-    <td>Hola</td>
-    <td>Hola</td>
-    <td>Hola</td>
-    <td>Hola</td>
-</tr>
+    <tr>
+        <th>Partidos</th>
+        <th>Minutos jugados</th>
+        <th>Tarjetas amarillas</th>
+        <th>Tarjetas rojas</th>
+    </tr>
+</table>
+{% else %}
+<table class="paper">
+    <tr>
+        <th>Partidos</th>
+        <th>Minutos jugados</th>
+        <th>Tarjetas amarillas</th>
+        <th>Tarjetas rojas</th>
+    </tr>
+    {% for item in total_items %}
+    <tr>
+        <td>{% if item.partidos != None %} {{ item.partidos }} {% else %} - {% endif %}</td>
+        <td>{% if item.minutos != None %} {{ item.minutos }} {% else %} - {% endif %}</td>
+        <td>{% if item.amarillas != None %} {{ item.amarillas }} {% else %} - {% endif %}</td>
+        <td>{% if item.rojas != None %} {{ item.rojas }} {% else %} - {% endif %}</td>
+    </tr>
+    {% endfor %}
+{% endif %}
 </table>
 
 {% endblock %}
