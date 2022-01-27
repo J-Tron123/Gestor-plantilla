@@ -1,0 +1,259 @@
+{% extends "template.html" %}
+
+{% block titulo_pagina %} Registrar Estadísticas {% endblock %}
+
+{% block contenido_pagina %}
+
+        <h1>Registrar Estadísticas</h1>
+    <nav>
+        <p><a href="/stats">Estadísticas</a> | <a href="/primeras">Estadísticas 2.0</a> | <a href="/segundas">Estadísticas 3.0</a></p>
+    </nav>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p class="error">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form action="/alta_stats" method="post">
+    {{ form.hidden_tag() }}
+<table>
+    <tr>
+        <td class="campo-formulario">
+            Jugador:
+        </td>
+        <th class="campo-formulario">
+            {{ form.jugadores }}
+            {% for error in form.jugadores.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td class="campo-formulario">
+            Goles:
+        </td>
+        <th class="campo-formulario">
+            {{ form.goles }}
+            {% for error in form.goles.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Asistencias:
+        </td>
+        <th class="campo-formulario">
+            {{ form.asistencias }}
+            {% for error in form.asistencias.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+    <tr>
+        <td class="campo-formulario">
+            Tarjetas Amarillas:
+        </td>
+        <th class="campo-formulario">
+            {{ form.amarillas }}
+            {% for error in form.amarillas.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Tarjetas Rojas:
+        </td>
+        <th class="campo-formulario">
+            {{ form.rojas }}
+            {% for error in form.rojas.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+    <tr>
+        <td class="campo-formulario">
+            Pases Clave:
+        </td>
+        <th class="campo-formulario">
+            {{ form.pases_clave }}
+            {% for error in form.pases_clave.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Grandes Ocasiones:
+        </td>
+        <th class="campo-formulario">
+            {{ form.grandes_ocasiones }}
+            {% for error in form.grandes_ocasiones.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+    <tr>
+        <td class="campo-formulario">
+            Pases:
+        </td>
+        <th class="campo-formulario">
+            {{ form.pases }}
+            {% for error in form.pases.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Pases Completados:
+        </td>
+        <th class="campo-formulario">
+            {{ form.pases_completados }}
+            {% for error in form.pases_completados.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+    <tr>
+        <td class="campo-formulario">
+            Remates:
+        </td>
+        <th class="campo-formulario">
+            {{ form.remates }}
+            {% for error in form.remates.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Remates a Puerta:
+        </td>
+        <th class="campo-formulario">
+            {{ form.remates_puerta }}
+            {% for error in form.remates_puerta.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+    <tr>
+        <td class="campo-formulario">
+            Regates:
+        </td>
+        <th class="campo-formulario">
+            {{ form.regates }}
+            {% for error in form.regates.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Regates Completados:
+        </td>
+        <th class="campo-formulario">
+            {{ form.regates_completados }}
+            {% for error in form.regates_completados.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+    <tr>
+        <td class="campo-formulario">
+            Duelos Aéreos:
+        </td>
+        <th class="campo-formulario">
+            {{ form.duelos_aereos }}
+            {% for error in form.duelos_aereos.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Duelos Aéreos Completados:
+        </td>
+        <th class="campo-formulario">
+            {{ form.duelos_aereos_completados }}
+            {% for error in form.duelos_aereos_completados.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+    <tr>
+        <td class="campo-formulario">
+            Paradas:
+        </td>
+        <th class="campo-formulario">
+            {{ form.paradas }}
+            {% for error in form.paradas.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Goles Encajados:
+        </td>
+        <th class="campo-formulario">
+            {{ form.goles_encajados }}
+            {% for error in form.goles_encajados.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+    <tr>
+        <td class="campo-formulario">
+            Minutos Jugados:
+        </td>
+        <th class="campo-formulario">
+            {{ form.minutos }}
+            {% for error in form.minutos.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Partidos Jugados:
+        </td>
+        <th class="campo-formulario">
+            {{ form.partidos }}
+            {% for error in form.partidos.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+    <tr>
+        <td class="campo-formulario">
+            Faltas:
+        </td>
+        <th class="campo-formulario">
+            {{ form.faltas }}
+            {% for error in form.faltas.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Recuperaciones:
+        </td>
+        <th class="campo-formulario">
+            {{ form.recuperaciones }}
+            {% for error in form.recuperaciones.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+    <tr>
+        <td class="campo-formulario">
+            Goles en Propia:
+        </td>
+        <th class="campo-formulario">
+            {{ form.autogoles }}
+            {% for error in form.autogoles.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+        <td class="campo-formulario">
+            Fueras de Juego:
+        </td>
+        <th class="campo-formulario">
+            {{ form.offsides }}
+            {% for error in form.offsides.errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        </th>
+    </tr>
+</table>
+        <div id="derecha" class="campo-formulario">
+            {{ form.modificar }}
+        </div>
+    </form>
+{% endblock %}

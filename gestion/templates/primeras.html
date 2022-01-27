@@ -5,7 +5,7 @@
 {% block contenido_pagina %}
 
 <nav>
-    <p><a href="/stats">Estadísticas</a> | <a href="/segundas">Estadísticas 3.0</a></p>
+    <p><a href="/stats">Estadísticas</a> | <a href="/segundas">Estadísticas 3.0</a> | <a href="/alta_stats">Registrar Estadísticas</a></p>
 </nav>
 {% with messages = get_flashed_messages() %}
 {% if messages %}
@@ -50,6 +50,8 @@
         <th>Remates</th>
         <th>Remates a puerta</th>
         <th>Grandes ocasiones</th>
+        <th>Regates</th>
+        <th>Regates completados</th>
     </tr>
     {% for item in total_items %}
     <tr>
@@ -61,6 +63,8 @@
         <td>{% if item.remates != None %} {{ item.remates }} {% else %} - {% endif %}</td>
         <td>{% if item.remates_puerta != None %} {{ item.remates_puerta }} {% else %} - {% endif %}</td>
         <td>{% if item.grandes_ocasiones != None %} {{ item.grandes_ocasiones }} {% else %} - {% endif %}</td>
+        <td>{% if item.regates != None %} {{ item.regates }} {% else %} - {% endif %}</td>
+        <td>{% if item.regates_completados != None %} {{ item.regates_completados }} {% else %} - {% endif %}</td>
     </tr>
     {% endfor %}
 {% endif %}

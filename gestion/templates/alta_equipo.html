@@ -19,7 +19,7 @@
 
     <form action="/alta_equipo" method="post">
     {{ form.hidden_tag() }}
-<table>
+<table class="paper">
     <tr>
         <td class="campo-formulario">
             Nombre del equipo:
@@ -27,15 +27,6 @@
         <th class="campo-formulario">
             {{ form.desc_equipo(size=30, maxlength=100) }}
             {% for error in form.desc_equipo.errors %}
-            <p class="error">{{ error }}</p>
-        {% endfor %}
-        </th>
-        <td class="campo-formulario">
-            Club del equipo:
-        </td>
-        <th class="campo-formulario">
-            {{ form.id_club }}
-            {% for error in form.id_club.errors %}
             <p class="error">{{ error }}</p>
         {% endfor %}
         </th>

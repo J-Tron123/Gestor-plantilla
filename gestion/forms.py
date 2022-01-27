@@ -1,3 +1,4 @@
+from flask.app import Flask
 from flask_wtf import FlaskForm
 from wtforms import StringField, FloatField, IntegerField, SelectField, SubmitField, DateField, RadioField, FileField
 from wtforms.validators import DataRequired, NumberRange,  ValidationError
@@ -20,7 +21,6 @@ class Form(FlaskForm):
     peso = FloatField("Peso del jugador", validators=[DataRequired(message="Debes informar un número"),
     NumberRange(message="Debe informar un número positivo", min=1)])
     id_equipo = SelectField("Equipo al que pertenece el jugador", validators=[DataRequired(message="Debes seleccionar un equipo")])
-    clubes = SelectField("Club que desea seleccionar", validators=[DataRequired(message="Debes seleccionar un club")])
     foto = FileField("Foto del jugador")
     guardar = SubmitField("Guardar")
 
@@ -28,7 +28,6 @@ class Form(FlaskForm):
     def new(cls):
         form = cls()
         form.id_equipo.choices = buscadores.busca_equipos()
-        form.clubes.choices = buscadores.busca_clubes()
         return form
 
 class FormPlantilla(FlaskForm):
@@ -41,21 +40,9 @@ class FormPlantilla(FlaskForm):
         form.id_equipo.choices = buscadores.busca_equipos()
         return form
 
-
-class FormClub(FlaskForm):
-    desc_club = StringField("Nombre del club", validators=[DataRequired(message="Debe informar el nombre del club")])
-    guardar = SubmitField("Guardar")
-
 class FormEquipo(FlaskForm):
     desc_equipo = StringField("Nombre del equipo", validators=[DataRequired(message="Debe informar el nombre del equipo")])
-    id_club = SelectField("Club que desea seleccionar", validators=[DataRequired(message="Debes seleccionar un club")])
     guardar = SubmitField("Guardar")
-
-    @classmethod
-    def new(cls):
-        form = cls()
-        form.id_club.choices = buscadores.busca_clubes()
-        return form
 
 class FormBuscaJugador(FlaskForm):
     jugadores = SelectField("Jugador que desea seleccionar", validators=[DataRequired(message="Debes seleccionar un jugador")])
@@ -110,5 +97,37 @@ class FormSeguimiento(FlaskForm):
     def new(cls):
         form = cls()
         form.id_equipo.choices = buscadores.busca_equipos()
+        form.jugadores.choices = buscadores.busca_jugadores()
+        return form
+
+class FormStats(FlaskForm):
+    jugadores = SelectField("Jugador que desea seleccionar", validators=[DataRequired(message="Debes seleccionar un jugador")])
+    goles = IntegerField("Goles", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    asistencias = IntegerField("Asistencias", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    amarillas = IntegerField("Amarillas", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    rojas = IntegerField("Rojas", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    pases_clave = IntegerField("Pases Clave", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    grandes_ocasiones = IntegerField("Grandes Ocasiones", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    pases = IntegerField("Pases", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    pases_completados = IntegerField("Pases Completados", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    remates = IntegerField("Remates", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    remates_puerta = IntegerField("Remates a Puerta", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    regates = IntegerField("Regates", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    regates_completados = IntegerField("Regates Completados", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    duelos_aereos = IntegerField("Duelos Aéreos", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    duelos_aereos_completados = IntegerField("Duelos Aéreos Completados", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    paradas = IntegerField("Paradas", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    goles_encajados = IntegerField("Goles Encajados", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    minutos = IntegerField("Minutos", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    partidos = IntegerField("Partidos", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    faltas = IntegerField("Faltas", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    recuperaciones = IntegerField("Recuperaciones", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    autogoles = IntegerField("Autogoles", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    offsides = IntegerField("Fueras de Juego", validators=[NumberRange(message="Debe informar un número positivo", min=1)])
+    modificar = SubmitField("Modificar")
+
+    @classmethod 
+    def new(cls):
+        form = cls()
         form.jugadores.choices = buscadores.busca_jugadores()
         return form

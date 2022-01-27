@@ -17,14 +17,6 @@
     {% endwith %}
     <form action="/alta_jugador" method="post">
     {{ form.hidden_tag() }}
-    <table class="paper" class="paper">
-        <td>
-            Club: {{ form.clubes }}
-            {% for error in form.clubes.errors %}
-            <p class="error">{{ error }}</p>
-        {% endfor %}
-        </td>
-    </table>
 <table>
     <tr>
         <td class="campo-formulario">

@@ -40,16 +40,6 @@ dbroute = app.config.get(DATA_BASE)
 dbmanager = DBManager(DATA_BASE)
 
 class Buscadores():
-    def busca_clubes():
-        query_clubes = """SELECT id_club, desc_club FROM clubes"""
-        consulta_clubes = dbmanager.querySQL(query_clubes)
-        options_clubes = []
-        for i in consulta_clubes:
-            club = (i['id_club'], i['desc_club'])
-            options_clubes.append(club)
-        placeholder = ("", "---Seleccione un club---")
-        options_clubes.insert(0, placeholder)
-        return options_clubes
 
     def busca_equipos():
         query_equipos = """SELECT id_equipo, desc_equipo FROM equipos"""
@@ -63,11 +53,14 @@ class Buscadores():
         return options_equipos
     
     def busca_jugadores():
-        query_jugadores = """SELECT nombre, dorsal FROM jugadores"""
+        query_jugadores = """SELECT jug.nombre, jug.id_jugador, 
+                            jug.dorsal, eq.desc_equipo FROM jugadores jug
+                            LEFT OUTER JOIN equipos eq ON jug.id_equipo = eq.id_equipo"""
         consulta_jugadores = dbmanager.querySQL(query_jugadores)
         options_jugadores = []
         for i in consulta_jugadores:
-            jugador = (i['dorsal'], i['nombre'])
+            data = (i['nombre'], i["dorsal"], i["desc_equipo"])
+            jugador = (i['id_jugador'], data)
             options_jugadores.append(jugador)
         placeholder = ("", "---Seleccione un jugador---")
         options_jugadores.insert(0, placeholder)

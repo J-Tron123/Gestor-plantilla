@@ -1,20 +1,13 @@
-CREATE TABLE "clubes"(
-"desc_club" TEXT NOT NULL,
-"id_club" INTEGER NOT NULL UNIQUE,
-PRIMARY KEY ("id_club" AUTOINCREMENT)
-)
-
 CREATE TABLE "equipos" (
-	"desc_equipo"	TEXT NOT NULL,
+	"desc_equipo" TEXT NOT NULL UNIQUE,
 	"id_equipo"	INTEGER NOT NULL UNIQUE,
-	"id_club"	INTEGER NOT NULL,
-	PRIMARY KEY("id_equipo" AUTOINCREMENT),
-	CONSTRAINT "unq" UNIQUE("desc_equipo","id_club")
-)
+	PRIMARY KEY("id_equipo" AUTOINCREMENT)
+);
 
 CREATE TABLE "estadisticas" (
-	"dorsal"	INTEGER NOT NULL,
-	"id_equipo"	INTEGER NOT NULL,
+	"id_jugador" INTEGER NOT NULL UNIQUE,
+	"dorsal" INTEGER NOT NULL,
+	"id_equipo" INTEGER NOT NULL,
 	"goles"	INTEGER,
 	"asistencias"	INTEGER,
 	"amarillas"	INTEGER,
@@ -37,24 +30,25 @@ CREATE TABLE "estadisticas" (
 	"recuperaciones"	INTEGER,
 	"autogoles"	INTEGER,
 	"offsides"	INTEGER,
-)
+	PRIMARY KEY("id_jugador" AUTOINCREMENT),
+	CONSTRAINT "unq" UNIQUE("dorsal", "id_equipo")
+);
 
 CREATE TABLE "his_med" (
-	"dorsal"	INTEGER NOT NULL,
+	"id_jugador"	INTEGER NOT NULL,
 	"desc_lesion"	TEXT NOT NULL,
 	"duracion"	INTEGER NOT NULL,
-	"id_equipo"	INTEGER NOT NULL,
-	PRIMARY KEY("dorsal")
-)
+	PRIMARY KEY("id_jugador")
+);
 
 CREATE TABLE "inasistencias" (
-	"dorsal"	INTEGER NOT NULL,
-	"id_equipo"	INTEGER NOT NULL,
-	"inasistencia"	TEXT NOT NULL
+	"id_jugador"	INTEGER NOT NULL,
+	"inasistencia"	TEXT NOT NULL,
     "es_entreno" TEXT NOT NULL
-)
+);
 
 CREATE TABLE "jugadores"(
+"id_jugador" INTEGER NOT NULL UNIQUE,
 "nombre" TEXT NOT NULL,
 "dorsal" INTEGER NOT NULL,
 "posicion" TEXT NOT NULL,
@@ -62,12 +56,11 @@ CREATE TABLE "jugadores"(
 "peso" REAL,
 "id_equipo" INTEGER NOT NULL,
 "imagen"	TEXT,
-PRIMARY KEY ("dorsal", "id_equipo"),
+PRIMARY KEY ("id_jugador" AUTOINCREMENT),
 CONSTRAINT "unq" UNIQUE("dorsal", "id_equipo")
-)
+);
 
 CREATE TABLE "seguimiento" (
-	"dorsal"	INTEGER NOT NULL,
-	"id_equipo"	INTEGER NOT NULL,
-	"anotacion"	INTEGER NOT NULL,
-)
+	"id_jugador"	INTEGER NOT NULL,
+	"anotacion"	INTEGER NOT NULL
+);
